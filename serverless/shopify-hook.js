@@ -1,5 +1,5 @@
-const handler = async (req, context) => {
-  console.log(JSON.stringify(req));
+const handler = async (event, context) => {
+  console.log(JSON.stringify(event));
   console.log(JSON.stringify(context));
   try {
     const { city, country } = context.params;
