@@ -1,7 +1,6 @@
 require("dotenv").config();
 const handler = async (req, context) => {
   const { variants } = JSON.parse(req.body);
-  console.log(JSON.stringify(variants));
   const latestUpdated = variants.reduce(
     (acc, current) => {
       const accDate = new Date(acc.updated_at);
@@ -23,26 +22,25 @@ const handler = async (req, context) => {
       });
   }
   const variantToUpdate = productVariants[0].entityId;
-  console.log(variantToUpdate);
   const sizeDetailsToUpdate = {
     c_greysonSizeDetails: productVariants,
   };
-
+  console.log(JSON.stringify(sizeDetailsToUpdate));
   console.log(JSON.stringify(c_greysonSizeDetails));
 
-  await fetch(
-    `https://${
-      process.env.ENV_TYPE === "PRODUCTION" ? "api" : "sbx-api"
-    }.us.yextapis.com/v2/accounts/me/entities/${variantToUpdate}?api_key=${
-      process.env.API_KEY
-    }&v=20220101`,
-    {
-      method: "PUT",
-      body: JSON.stringify(sizeDetailsToUpdate),
-    }
-  )
-    .then(() => console.log("Success"))
-    .catch((e) => console.log(e.message));
+  // await fetch(
+  //   `https://${
+  //     process.env.ENV_TYPE === "PRODUCTION" ? "api" : "sbx-api"
+  //   }.us.yextapis.com/v2/accounts/me/entities/${variantToUpdate}?api_key=${
+  //     process.env.API_KEY
+  //   }&v=20220101`,
+  //   {
+  //     method: "PUT",
+  //     body: JSON.stringify(sizeDetailsToUpdate),
+  //   }
+  // )
+  //   .then(() => console.log("Success"))
+  //   .catch((e) => console.log(e.message));
 };
 
 module.exports = { handler };
