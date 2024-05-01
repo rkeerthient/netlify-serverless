@@ -26,7 +26,13 @@ const handler = async (req, context) => {
     c_greysonSizeDetails: productVariants,
   };
   console.log(JSON.stringify(sizeDetailsToUpdate));
-
+  console.log(
+    `https://${
+      process.env.ENV_TYPE === "PRODUCTION" ? "api" : "sbx-api"
+    }.us.yextapis.com/v2/accounts/me/entities/${variantToUpdate}?api_key=${
+      process.env.API_KEY
+    }&v=20220101`
+  );
   await fetch(
     `https://${
       process.env.ENV_TYPE === "PRODUCTION" ? "api" : "sbx-api"
