@@ -1,11 +1,43 @@
+require("dotenv").config();
 const handler = async (req, context) => {
-  console.log(JSON.stringify(JSON.parse(req.body)));
-  try {
-    const { city, country } = JSON.parse(req.body);
-    return { statusCode: 500, body: `You're visiting ${city} in ${country}!` };
-  } catch (error) {
-    return { statusCode: 500, body: error.toString() };
+  const { variants } = JSON.parse(req.body);
+  const latestUpdated = variants.reduce(
+    (acc, current) => {
+      const accDate = new Date(acc.updated_at);
+      const currentDate = new Date(current.updated_at);
+      return currentDate > accDate ? current : acc;
+    },
+    { updated_at: 0 }
+  );
+
+  const productVariants = [];
+
+  for (const variant of variants) {
+    variant.option1 === latestUpdated.option1 &&
+      productVariants.push({
+        entityId: variant.id,
+        sku: variant.sku,
+        size: variant.option2,
+        inventory: variant.inventory_quantity,
+      });
   }
+  const variantToUpdate = productVariants[0].entityId;
+  const c_greysonSizeDetails = {
+    c_greysonSizeDetails: productVariants,
+  };
+  await fetch(
+    `https://${
+      process.env.ENV_TYPE === "PRODUCTION" ? "api" : "sbx-api"
+    }.us.yextapis.com/v2/accounts/me/entities/${variantToUpdate}?api_key=${
+      process.env.API_KEY
+    }&v=20220101`,
+    {
+      method: "PUT",
+      body: JSON.stringify(c_greysonSizeDetails),
+    }
+  )
+    .then(() => console.log("Success"))
+    .catch((e) => e.message);
 };
 
 module.exports = { handler };
