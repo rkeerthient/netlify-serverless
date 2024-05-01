@@ -37,7 +37,7 @@ const handler = async (req, context) => {
     }
   )
     .then(() => console.log("Success"))
-    .catch((e) => e.message);
+    .catch((e) => console.log(e.message));
 };
 
 module.exports = { handler };
