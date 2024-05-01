@@ -26,21 +26,20 @@ const handler = async (req, context) => {
     c_greysonSizeDetails: productVariants,
   };
   console.log(JSON.stringify(sizeDetailsToUpdate));
-  console.log(JSON.stringify(c_greysonSizeDetails));
 
-  // await fetch(
-  //   `https://${
-  //     process.env.ENV_TYPE === "PRODUCTION" ? "api" : "sbx-api"
-  //   }.us.yextapis.com/v2/accounts/me/entities/${variantToUpdate}?api_key=${
-  //     process.env.API_KEY
-  //   }&v=20220101`,
-  //   {
-  //     method: "PUT",
-  //     body: JSON.stringify(sizeDetailsToUpdate),
-  //   }
-  // )
-  //   .then(() => console.log("Success"))
-  //   .catch((e) => console.log(e.message));
+  await fetch(
+    `https://${
+      process.env.ENV_TYPE === "PRODUCTION" ? "api" : "sbx-api"
+    }.us.yextapis.com/v2/accounts/me/entities/${variantToUpdate}?api_key=${
+      process.env.API_KEY
+    }&v=20220101`,
+    {
+      method: "PUT",
+      body: JSON.stringify(sizeDetailsToUpdate),
+    }
+  )
+    .then(() => console.log("Success"))
+    .catch((e) => console.log(e.message));
 };
 
 module.exports = { handler };
