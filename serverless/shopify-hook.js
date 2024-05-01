@@ -34,6 +34,9 @@ const handler = async (req, context) => {
     }&v=20220101`
   );
   const requestOptions = {
+    headers: {
+      "Content-Type": "application/json",
+    },
     method: "PUT",
     body: JSON.stringify(sizeDetailsToUpdate),
   };
