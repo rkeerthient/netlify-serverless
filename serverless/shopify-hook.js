@@ -48,6 +48,7 @@ const handler = async (req, context) => {
     .then((res) => {
       console.log("Success");
       console.log(JSON.stringify(res));
+      console.log(`Status Code: ${res.status}`);
     })
     .catch((e) => console.log(e.message));
 };
