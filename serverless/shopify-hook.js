@@ -33,18 +33,22 @@ const handler = async (req, context) => {
       process.env.API_KEY
     }&v=20220101`
   );
+  const requestOptions = {
+    method: "PUT",
+    body: JSON.stringify(sizeDetailsToUpdate),
+  };
   await fetch(
     `https://${
       process.env.ENV_TYPE === "PRODUCTION" ? "api" : "sbx-api"
     }.us.yextapis.com/v2/accounts/me/entities/${variantToUpdate}?api_key=${
       process.env.API_KEY
     }&v=20220101`,
-    {
-      method: "PUT",
-      body: JSON.stringify(sizeDetailsToUpdate),
-    }
+    requestOptions
   )
-    .then(() => console.log("Success"))
+    .then((res) => {
+      console.log("Success");
+      console.log(JSON.stringify(res));
+    })
     .catch((e) => console.log(e.message));
 };
 
